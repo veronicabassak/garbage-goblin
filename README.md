@@ -107,7 +107,6 @@ No external frameworks required — the game runs in any modern browser.
 
 ## 📜 License
 
-This project is open-source under the **MIT License**
 Feel free to use, modify, and build upon it — especially for educational purposes 🌱
 
 ---
