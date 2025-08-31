@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Garbage Goblin</title>
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./mediaqueries.css" />
+  <script defer src="game.js"></script>
+</head>
+<body>
+
+  <!-- ========== MENU (first screen) ========== -->
+  <div id="menu" class="screen active">
+    <img src="./assets/startpagelogo.png" alt="Garbage Goblin Logo" id="logo" />
+    <div class="buttons">
+      <button id="startBtn" type="button">Start</button>
+    </div>
+  </div>
+
+  <!-- ========== GAME SCREEN (hidden until Start) ========== -->
+  <div id="gameScreen" class="screen" tabindex="-1">
+    <div id="hint" class="hint">Press SPACE to talk to the Goblin</div>
+
+    <!-- Intro / rules modal -->
+    <div id="modalBackdrop" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <button class="modal-close" id="modalClose" type="button" aria-label="Close dialog">×</button>
+        <h2 id="modalTitle">The Garbage Goblin</h2>
+        <p id="modalText" class="modal-text"></p>
+        <div class="modal-actions">
+          <button id="modalNext" class="ui-btn primary" type="button">Next</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- HUD -->
+    <div id="hud">
+      <span>Score: <strong id="score">0</strong></span>
+      <span>Lives: <strong id="lives">3</strong></span>
+      <span>Left: <strong id="leftCount">0</strong></span>
+    </div>
+
+    <!-- Pause toggle -->
+    <button id="pauseBtn" class="ui-btn" type="button">Pause</button>
+
+    <!-- Playfield -->
+    <div id="playfield">
+      <!-- Falling item will appear here -->
+      <img id="fallingItem" src="./assets/banana.png" alt="Falling item to sort" />
+      <div id="itemLabel" class="item-label"></div>
+
+      <!-- Bins row -->
+      <div class="bins">
+        <div class="bin" data-cat="paper">
+          <img src="./assets/bin-paper.png" alt="Paper bin" />
+        </div>
+        <div class="bin" data-cat="plastic">
+          <img src="./assets/bin-plastic.png" alt="Plastic bin" />
+        </div>
+        <div class="bin" data-cat="glass">
+          <img src="./assets/bin-glass.png" alt="Glass bin" />
+        </div>
+        <div class="bin" data-cat="organic">
+          <img src="./assets/bin-organic.png" alt="Organic bin" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Education / feedback bar -->
+    <div id="eduBar" role="status" aria-live="polite">
+      <img id="eduIcon" alt="" />
+      <span id="eduText"></span>
+    </div>
+
+    <!-- Pause overlay -->
+    <div id="pauseOverlay" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="pauseTitle">
+        <h2 id="pauseTitle">Paused</h2>
+        <p class="modal-text">Press <strong>P</strong> or click Resume to continue.</p>
+        <div class="modal-actions">
+          <button id="resumeBtn2" class="ui-btn primary" type="button">Resume</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Win modal -->
+    <div id="endModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="endTitle">
+        <h2 id="endTitle">Congratulations!</h2>
+        <p id="endText" class="modal-text"></p>
+        <div class="modal-actions">
+          <button id="endNext" class="ui-btn" type="button">Next</button>
+          <button id="playAgainBtn" class="ui-btn primary" type="button" hidden>Play again</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lose modal -->
+    <div id="loseModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="loseTitle">
+        <h2 id="loseTitle">Ooops… Try again?</h2>
+        <p id="loseText" class="modal-text"></p>
+        <div class="modal-actions">
+          <button id="loseNext" class="ui-btn" type="button">Next</button>
+          <button id="playAgainBtnLose" class="ui-btn primary" type="button" hidden>Play again</button>
+        </div>
+      </div>
+    </div>
+  </div><!-- /#gameScreen -->
+
+</body>
+</html>

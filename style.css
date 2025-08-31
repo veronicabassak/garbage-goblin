@@ -1,0 +1,244 @@
+/* base */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* screens: hidden by default, .active shows it */
+.screen {
+  display: none;
+  position: relative;
+  height: 100vh;         
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;       /* no page scroll while a screen is active */
+}
+.screen.active { display: flex; }
+
+/* -----------------------------------------------------------
+   MENU (start screen)
+   ----------------------------------------------------------- */
+#menu {
+  background: url("./assets/startpagelogo.png") center / cover no-repeat;
+}
+#logo { display: none; }
+
+.buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  z-index: 1;
+}
+button, .ui-btn {
+  padding: 12px 24px;
+  font-size: 1.05rem;
+  border: none;
+  border-radius: 10px;
+  background: #ffe3b3;
+  color: #5a3a13;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,.15);
+  transition: transform .1s ease, background .2s ease, box-shadow .2s ease;
+}
+button:hover, .ui-btn:hover { background: #ffd28a; box-shadow: 0 8px 22px rgba(0,0,0,.22); }
+button:active, .ui-btn:active { transform: translateY(1px); }
+.ui-btn.primary { background: #ffd98a; }
+
+/* -----------------------------------------------------------
+   GAME SCREEN
+   ----------------------------------------------------------- */
+#gameScreen {
+  background-image: url("./assets/goblinhouse.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 24px;
+
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* hint bubble on the house screen */
+.hint {
+  position: absolute;
+  left: 50%;
+  bottom: 12vh;
+  transform: translateX(-50%);
+  padding: 8px 14px;
+  background: rgba(0,0,0,.55);
+  color: #fff;
+  border-radius: 8px;
+  animation: pulse 1.6s infinite;
+  z-index: 3;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+
+/* -----------------------------------------------------------
+   MODALS (intro / win / lose / pause)
+   ----------------------------------------------------------- */
+/* backdrop (hidden by default, toggled with .open) */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  z-index: 10;
+  align-items: center;
+  justify-content: center;
+}
+.modal-backdrop.open { display: flex; }
+
+/* dialog box */
+.modal {
+  width: min(560px, 88vw);
+  background: #fff7ea;
+  color: #3b2b1a;
+  border-radius: 14px;
+  padding: 20px 20px 16px;
+  position: relative;
+  box-shadow: 0 14px 40px rgba(0,0,0,.35);
+  outline: 2px solid #f0d7a8;
+}
+.modal h2 { margin: 0 0 10px; font-size: 1.4rem; }
+.modal-text { margin: 0 0 16px; line-height: 1.5; }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+/* close (×) */
+.modal-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 32px; height: 32px;
+  border: 0;
+  border-radius: 8px;
+  font-size: 20px;
+  background: transparent;
+  color: #5a3a13;
+  cursor: pointer;
+}
+.modal-close:hover { background: rgba(0,0,0,.06); }
+
+/* small screens: keep comfy */
+@media (max-width: 480px) {
+  .modal { padding: 16px; }
+  .modal h2 { font-size: 1.2rem; }
+  .modal-text { font-size: .95rem; }
+}
+
+/* -----------------------------------------------------------
+   PLAYFIELD (game area)
+   ----------------------------------------------------------- */
+#playfield {
+  position: relative;
+  width: min(900px, 92vw);
+  height: min(560px, 70vh);     /* NOT % — stays responsive */
+  margin: 0 auto;
+  border: none;
+  background: rgba(255,255,255,0.18);
+  border-radius: 12px;
+  overflow: hidden;
+  z-index: 1;
+  display: none;                /* shown when gameplay starts */
+  user-select: none;
+}
+
+/* falling item image */
+#fallingItem {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 60px;
+  height: auto;
+  transform: translateX(-50%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* item name label (above playfield center) */
+.item-label {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 700;
+  color: #222;
+  background: rgba(255,255,255,.85);
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+/* bins row at bottom of playfield */
+.bins {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 8px;
+  background: rgba(0,0,0,0.10);
+}
+.bin { display: flex; align-items: center; justify-content: center; }
+.bin img { width: 80px; height: auto; }
+
+/* bin feedback */
+.bin.correct { outline: 4px solid #34d399; border-radius: 10px; }
+.bin.wrong   { outline: 4px solid #f87171; border-radius: 10px; }
+
+/* -----------------------------------------------------------
+   HUD & CONTROLS
+   ----------------------------------------------------------- */
+/* HUD at top — hidden until gameplay starts */
+#hud {
+  display: none;               /* JS shows it during gameplay */
+  position: absolute;
+  top: 10px;
+  left: 50%; transform: translateX(-50%);
+  gap: 16px;
+  padding: 6px 10px;
+  background: rgba(0,0,0,.35);
+  color: #fff;
+  border-radius: 10px;
+  z-index: 3;
+}
+#hud > span { display: inline-flex; gap: 6px; }
+
+/* pause button (hidden on house / win / lose) */
+#pauseBtn {
+  display: none;               /* JS toggles to block during play */
+  position: absolute;
+  top: 10px; right: 10px;
+  z-index: 4;
+}
+
+/* -----------------------------------------------------------
+   EDUCATION BAR (appears under playfield)
+   ----------------------------------------------------------- */
+#eduBar {
+  display: none;
+  margin-top: 14px;
+  padding: 10px 14px;
+  background: #fff7ea;
+  color: #3b2b1a;
+  border: 2px solid #f0d7a8;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.18);
+  font-size: 0.98rem;
+  align-items: center;
+  gap: 10px;
+}
+#eduBar.show  { display: inline-flex; }
+#eduBar.ok    { border-color: #34d399; } /* green */
+#eduBar.error { border-color: #f87171; } /* red   */
+#eduBar img {
+  width: 32px; height: 32px;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,.15));
+}

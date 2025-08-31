@@ -1,0 +1,8 @@
+@media (max-width: 480px) {
+  button { font-size: 1rem; padding: 10px 18px; }
+} 
+
+/* @media (max-width: 480px) {
+  #eduBar { font-size: .9rem; padding: 8px 10px; }
+  #eduBar img { width: 28px; height: 28px; }
+} */
